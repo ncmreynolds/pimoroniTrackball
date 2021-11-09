@@ -5,7 +5,7 @@ An Arduino library for the [Pimoroni RGBW trackball breakout](https://shop.pimor
 
 ## Connections
 
-These trackballs communicate over I2C and optionally provide an interrupt you can use to trigger events.
+These trackballs communicate over I2C and optionally provide an interrupt you can use to trigger events. This library does not yet support interrupts and callbacks but may in the future.
 
 ## Methods
 
