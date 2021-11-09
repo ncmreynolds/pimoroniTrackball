@@ -1,0 +1,20 @@
+trackball	KEYWORD1
+pimoroniTrackball	KEYWORD1
+
+//Setup
+begin	KEYWORD2
+isConnected	KEYWORD2
+changed	KEYWORD2
+setRGBW	KEYWORD2
+setRed	KEYWORD2
+setGreen	KEYWORD2
+setBlue	KEYWORD2
+setWhite	KEYWORD2
+
+up	KEYWORD3
+down	KEYWORD2
+left	KEYWORD2
+right	KEYWORD2
+click	KEYWORD2
+release	KEYWORD2
+
