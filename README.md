@@ -9,7 +9,7 @@ These trackballs communicate over I2C and optionally provide an interrupt you ca
 
 ## Methods
 
-### void begin(<I2C address>,<I2C port>)
+### void begin([I2C address = 0x0A],[I2C port = Wire])
 
 Initialises and starts the breakout. By default assumes I2C address 0x0A, which is the default I2C address for the breakout  and the I2C port 'Wire'. If you supply an argument you can set it to a different address and optionally I2C interface.
 
