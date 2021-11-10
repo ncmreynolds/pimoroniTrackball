@@ -1,9 +1,11 @@
 /*
  *	Arduino library for the Pimoroni RGBW trackball breakout
  *
- *	See LICENSE for license
+ *	https://github.com/ncmreynolds/pimoroniTrackball
  *
- *	This library implements similar functionality to https://github.com/pimoroni/trackball-python/ but in C++
+ *	Released under LGPL-2.1 see https://github.com/ncmreynolds/pimoroniTrackball/LICENSE for full license
+ *
+ *	This library implements similar functionality to https://github.com/pimoroni/trackball-python/ but in C++ for use in the Arduino IDE
  *
  *
  */
