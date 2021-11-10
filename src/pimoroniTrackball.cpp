@@ -33,9 +33,6 @@ bool pimoroniTrackball::isConnected()
 	_i2cPort->write(TRACKBALL_REG_CHIP_ID_L);
     if (_i2cPort->endTransmission() == 0)
     {
-		//	Missing something about reading the CHIP_ID as it always returns 0, this needs fixing.
-		//_i2cPort->beginTransmission(_trackballAddress);
-		//_i2cPort->write(TRACKBALL_REG_CHIP_ID_L);
 		_i2cPort->requestFrom(_trackballAddress, 2, true);
 		if(_i2cPort->available())
 		{
@@ -45,16 +42,10 @@ bool pimoroniTrackball::isConnected()
 				deviceId[1] = _i2cPort->read();
 				if(deviceId[0] == 0x11 && deviceId[1] == 0xBA)
 				{
-					Serial.print("Device ID:");
-					Serial.print(deviceId[0],HEX);
-					Serial.println(deviceId[1],HEX);
 					return(true);
 				}
 				else
 				{
-					Serial.print("Device ID:");
-					Serial.print(deviceId[0],HEX);
-					Serial.println(deviceId[1],HEX);
 					return(false);
 				}
 			}
