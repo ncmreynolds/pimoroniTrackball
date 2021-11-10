@@ -8,7 +8,7 @@
 
 #include <Wire.h>
 #include "Mouse.h"
-#include <pimoroniTrackball.h>
+#include <pimoroniTrackball.h>  //From https://github.com/ncmreynolds/pimoroniTrackball
 
 uint8_t mouseSpeed = 5; //Change this to alter the mouse speed
 int16_t x = 0;
