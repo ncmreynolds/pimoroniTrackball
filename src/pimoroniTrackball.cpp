@@ -151,7 +151,7 @@ bool pimoroniTrackball::click()
 {
 	if(_lastState[4] == 0b10000001)
 	{
-		_lastState[4] == 0b10000000;
+		_lastState[4] = 0b10000000;
 		return(true);
 	}
 	return(false);
@@ -160,7 +160,7 @@ bool pimoroniTrackball::release()
 {
 	if(_lastState[4] == 0b00000001)
 	{
-		_lastState[4] == 0b00000000;
+		_lastState[4] = 0b00000000;
 		return(true);
 	}
 	return(false);
