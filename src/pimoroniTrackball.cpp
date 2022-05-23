@@ -21,7 +21,7 @@ pimoroniTrackball::~pimoroniTrackball()	//Destructor function
 {
 }
 
-bool pimoroniTrackball::begin(uint8_t address, TwoWire &wirePort)
+void pimoroniTrackball::begin(uint8_t address, TwoWire &wirePort)
 {
 	_trackballAddress = address;	//Set the I2C address of the trackball
 	_i2cPort = &wirePort;			//Set the wire port used for the trackball

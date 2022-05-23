@@ -48,7 +48,7 @@ class pimoroniTrackball
 		pimoroniTrackball();													//Constructor function
 		~pimoroniTrackball();													//Destructor function
 		//Setup functions
-		bool begin(uint8_t address = 0x0A, TwoWire &i2cPort = Wire);			//Initialise the trackball library
+		void begin(uint8_t address = 0x0A, TwoWire &i2cPort = Wire);			//Initialise the trackball library
 		bool isConnected();														//Check the trackball is connected
 		void setRGBW(uint8_t redBrightness, uint8_t greenBrightness, uint8_t blueBrightness, uint8_t whiteBrightness);	//Set the brightness for each of the RGB&W LEDs
 		void setRed(uint8_t redBrightness);										//Set the brightness of the red LED
