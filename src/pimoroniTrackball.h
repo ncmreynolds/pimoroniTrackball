@@ -64,7 +64,7 @@ class pimoroniTrackball
 		bool release();															//Was the trackball released
 	protected:
 	private:
-		uint8_t _trackballAddress = 0x0A;									//I2C address for the trackball
+		int _trackballAddress = 0x0A;										//I2C address for the trackball
 		TwoWire *_i2cPort = nullptr;										//Pointer to I2C port used by library
 		const uint16_t trackballDeviceId = 0xBA11;							//Device ID for the trackball
 		uint8_t _lastState[5] = {0, 0, 0, 0, 0b10000000};					//Last state of the trackball, which resets on read

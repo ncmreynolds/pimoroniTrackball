@@ -17,7 +17,7 @@ pimoroniTrackball::pimoroniTrackball()		//Constructor function
 {
 }
 
-pimoroniTrackball::~pimoroniTrackball()	//Destructor function
+pimoroniTrackball::~pimoroniTrackball()		//Destructor function
 {
 }
 
@@ -30,36 +30,35 @@ void pimoroniTrackball::begin(uint8_t address, TwoWire &wirePort)
 bool pimoroniTrackball::isConnected()
 {
 	uint8_t deviceId[2];
-    _i2cPort->beginTransmission(_trackballAddress);
-	_i2cPort->write(TRACKBALL_REG_CHIP_ID_L);
-    if (_i2cPort->endTransmission() == 0)
+    _i2cPort->beginTransmission(_trackballAddress);			//Start I2C transmission
+	_i2cPort->write(TRACKBALL_REG_CHIP_ID_L);				//Send the register and value
+    if(_i2cPort->endTransmission() == 0)
     {
-		_i2cPort->requestFrom(_trackballAddress, 2, true);
+		_i2cPort->requestFrom(_trackballAddress, 2, 1);		//Request 2 bytes from the trackball
 		if(_i2cPort->available())
 		{
 			deviceId[0] = _i2cPort->read();
 			if(_i2cPort->available())
 			{
 				deviceId[1] = _i2cPort->read();
-				if(deviceId[0] == 0x11 && deviceId[1] == 0xBA)
+				if(deviceId[0] == 0x11 && deviceId[1] == 0xBA)	//Check the device ID matches
 				{
-					return(true);
+					return true;
 				}
 				else
 				{
-					return(false);
+					return false;
 				}
 			}
 			else
 			{
-				return(false);
+				return false;
 			}
 		}
 		else
 		{
-			return(false);
+			return false;
 		}
-        return false;
     }
 	else
 	{
@@ -77,28 +76,28 @@ void pimoroniTrackball::setRGBW(uint8_t redBrightness, uint8_t greenBrightness, 
 void pimoroniTrackball::setRed(uint8_t redBrightness)	//Set the brightness of the red LED
 {
 	uint8_t data[2] = {TRACKBALL_REG_LED_RED, redBrightness};
-	_i2cPort->beginTransmission(_trackballAddress);	//Start I2C transmission
+	_i2cPort->beginTransmission(_trackballAddress);		//Start I2C transmission
 	_i2cPort->write(data,2);							//Send the register and value
 	_i2cPort->endTransmission();						//End I2C transmission
 }
 void pimoroniTrackball::setGreen(uint8_t greenBrightness)	//Set the brightness of the green LED
 {
 	uint8_t data[2] = {TRACKBALL_REG_LED_GRN, greenBrightness};
-	_i2cPort->beginTransmission(_trackballAddress);	//Start I2C transmission
+	_i2cPort->beginTransmission(_trackballAddress);		//Start I2C transmission
 	_i2cPort->write(data,2);							//Send the register and value
 	_i2cPort->endTransmission();						//End I2C transmission
 }
 void pimoroniTrackball::setBlue(uint8_t blueBrightness)	//Set the brightness of the blue LED
 {
 	uint8_t data[2] = {TRACKBALL_REG_LED_BLU, blueBrightness};
-	_i2cPort->beginTransmission(_trackballAddress);	//Start I2C transmission
+	_i2cPort->beginTransmission(_trackballAddress);		//Start I2C transmission
 	_i2cPort->write(data,2);							//Send the register and value
 	_i2cPort->endTransmission();						//End I2C transmission
 }
 void pimoroniTrackball::setWhite(uint8_t whiteBrightness)	//Set the brightness of the white LED
 {
 	uint8_t data[2] = {TRACKBALL_REG_LED_WHT, whiteBrightness};
-	_i2cPort->beginTransmission(_trackballAddress);	//Start I2C transmission
+	_i2cPort->beginTransmission(_trackballAddress);		//Start I2C transmission
 	_i2cPort->write(data,2);							//Send the register and value
 	_i2cPort->endTransmission();						//End I2C transmission
 }
@@ -107,63 +106,87 @@ bool pimoroniTrackball::changed()
 	bool changed = false;
 	uint8_t currentState[5] = {0, 0, 0, 0, 0b10000000};
 	uint8_t index = 0;
-	_i2cPort->beginTransmission(_trackballAddress);		//Start I2C transmission
+	_i2cPort->beginTransmission(_trackballAddress);			//Start I2C transmission
 	_i2cPort->write(TRACKBALL_REG_LEFT);					//Send the register and value
-	_i2cPort->requestFrom(_trackballAddress, 5, true);	//Request 5 bytes from the trackball
-	while(_i2cPort->available() && index < 5)
+	if(_i2cPort->endTransmission() == 0)
 	{
-		currentState[index] = _i2cPort->read();			//Read the current state
-		if(currentState[index] != _lastState[index])
+		_i2cPort->requestFrom(_trackballAddress, 5, 0);		//Request 5 bytes from the trackball
+		if(_i2cPort->available())
 		{
-			_lastState[index] = currentState[index];
-			changed = true;
+			while(_i2cPort->available() && index < 5)
+			{
+				currentState[index] = _i2cPort->read();		//Read the current state
+				if(currentState[index] != _lastState[index])
+				{
+					_lastState[index] = currentState[index];
+					changed = true;
+				}
+				index++;
+			}
+			if(index == 5)
+			{
+				return changed;
+			}
+			else
+			{
+				while(_i2cPort->available())
+				{
+					_i2cPort->read();
+				}
+				return false;
+			}
 		}
-		index++;
+		else
+		{
+			return false;
+		}
 	}
-	_i2cPort->endTransmission();							//End I2C transmission
-	return(changed);
+	else
+	{
+		return false;
+	}
 }
 uint8_t pimoroniTrackball::left()
 {
 	uint8_t temp = _lastState[0];
 	_lastState[0] = 0;
-	return(temp);
+	return temp;
 }
 uint8_t pimoroniTrackball::right()
 {
 	uint8_t temp = _lastState[1];
 	_lastState[1] = 0;
-	return(temp);
+	return temp;
 }
 uint8_t pimoroniTrackball::up()
 {
 	uint8_t temp = _lastState[2];
 	_lastState[2] = 0;
-	return(temp);
+	return temp;
 }
 uint8_t pimoroniTrackball::down()
 {
 	uint8_t temp = _lastState[3];
 	_lastState[3] = 0;
-	return(temp);
+	return temp;
 }
 bool pimoroniTrackball::click()
 {
 	if(_lastState[4] == 0b10000001)
 	{
 		_lastState[4] = 0b10000000;
-		return(true);
+		return true;
 	}
-	return(false);
+	return false;
 }
 bool pimoroniTrackball::release()
 {
 	if(_lastState[4] == 0b00000001)
 	{
 		_lastState[4] = 0b00000000;
-		return(true);
+		return true;
 	}
-	return(false);
+	return false;
 }
 pimoroniTrackball trackball;
 #endif
